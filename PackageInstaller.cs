@@ -23,6 +23,10 @@ namespace Installer {
             _installPath = installPath;
         }
 
+        private void DeleteArchive(object sender, RunWorkerCompletedEventArgs e) {
+            File.Delete(_archivePath);
+        }
+
         private void ComponentExtractProgress(object sender, ExtractProgressEventArgs e) {
             if (e.TotalBytesToTransfer > 0) {
                 long percent = e.BytesTransferred * 100 / e.TotalBytesToTransfer;
@@ -52,6 +56,9 @@ namespace Installer {
 
         public void Extract(bool deleteOnComplete = false) {
             _extractWorker.RunWorkerAsync();
+
+            if (deleteOnComplete)
+                _extractWorker.RunWorkerCompleted += DeleteArchive;
         }
 
     }
