@@ -1,4 +1,6 @@
+using System;
 using System.ComponentModel;
+using System.IO;
 
 namespace Installer
 {
@@ -19,7 +21,25 @@ namespace Installer
             _installPath = installPath;
         }
 
-        private void DeleteDirectory(object sender, DoWorkEventArgs e) { }
+        private void DeleteDirectory(object sender, DoWorkEventArgs e) {
+            try {
+                DirectorySize = Directory.GetDirectories(_installPath).Length;
+
+                TotalDeletedSize = 0;
+
+                foreach (string directoryEntry in Directory.EnumerateDirectories(_installPath)) {
+                    Directory.Delete(directoryEntry, true);
+
+                    TotalDeletedSize += 1;
+
+                    long percent = TotalDeletedSize * 100 / DirectorySize;
+                    _deleteWorker.ReportProgress((int)percent);
+                }
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
 
     }
 
