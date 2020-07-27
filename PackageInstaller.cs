@@ -50,6 +50,10 @@ namespace Installer {
             }
         }
 
+        public void Extract(bool deleteOnComplete = false) {
+            _extractWorker.RunWorkerAsync();
+        }
+
     }
 
 }
