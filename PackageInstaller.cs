@@ -1,7 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.IO;
+using Ionic.Zip;
 
-namespace Installer
-{
+namespace Installer {
 
     public class PackageInstaller {
 
@@ -21,7 +23,32 @@ namespace Installer
             _installPath = installPath;
         }
 
-        private void ExtractFile(object sender, DoWorkEventArgs e) { }
+        private void ComponentExtractProgress(object sender, ExtractProgressEventArgs e) {
+            if (e.TotalBytesToTransfer > 0) {
+                long percent = e.BytesTransferred * 100 / e.TotalBytesToTransfer;
+                _extractWorker.ReportProgress((int)percent);
+            }
+        }
+
+        private void ExtractFile(object sender, DoWorkEventArgs e) {
+            try {
+                ArchiveSize = new FileInfo(_archivePath).Length;
+
+                using (ZipFile zipFile = ZipFile.Read(_archivePath)) {
+                    TotalInstalledSize = 0;
+
+                    zipFile.ExtractProgress += ComponentExtractProgress;
+
+                    foreach (ZipEntry zipEntry in zipFile) {
+                        zipEntry.Extract(_installPath, ExtractExistingFileAction.OverwriteSilently);
+                        TotalInstalledSize += zipEntry.CompressedSize;
+                    }
+                }
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
 
     }
 
