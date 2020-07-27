@@ -2,8 +2,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 
-namespace Installer
-{
+namespace Installer {
 
     public class PackageUninstaller {
 
@@ -39,6 +38,10 @@ namespace Installer
             catch (Exception ex) {
                 throw ex;
             }
+        }
+
+        public void Uninstall() {
+            _deleteWorker.RunWorkerAsync();
         }
 
     }
