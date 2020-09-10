@@ -4,10 +4,10 @@ installer is a .NET Standard Class Library for installing archive packages.
 
 ## Usage
 
-Download the repo as zip. Extract the contents into your solution directory. Add the installer project to your solution
+Download the repo as zip. Extract the contents into your solution directory. Add the installer project to your solution.
 
 ```sh
-$ dotnet sln <SLN_FILE> add Installer.csproj
+$ dotnet sln <SLN_FILE> add src/Installer/Installer.csproj
 ```
 
 ## Interface
