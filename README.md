@@ -14,7 +14,7 @@ $ dotnet sln <SLN_FILE> add src/Installer/Installer.csproj
 
 There are two classes in the Installer namespace. `PackageInstaller` and `PackageUninstaller`.
 
----
+#### Install
 
 To begin an install to `installPath`
 
@@ -30,6 +30,8 @@ installer.Extract()
 `installer.TotalInstalledSize` gets the size of the installation at that instant in bytes. This value is updated as installation progresses.
 
 ---
+
+#### Uninstall
 
 To begin an uninstall from `installPath`
 
